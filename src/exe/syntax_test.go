@@ -406,6 +406,12 @@ func (v *Vertexf) Abs() float64 {
 	return math.Sqrt(v.X*v.X + v.Y*v.Y)
 }
 
+/* ERROR
+func (v &Vertexf) Abs() float64 {
+	return math.Sqrt(v.X*v.X + v.Y*v.Y)
+}
+*/
+
 //Go 没有类。然而，仍然可以在结构体类型上定义方法。
 func Test_method_(t *testing.T) {
 	v := &Vertexf{
@@ -430,3 +436,50 @@ func Test_method_float(t *testing.T) {
 	f := MyFloat(-math.Sqrt2)
 	fmt.Println(f.Abs())
 }
+
+//接口类型是由一组方法定义的集合。
+//接口类型的值可以存放实现这些方法的任何值。
+
+type Abser interface {
+	Abs() float64
+}
+
+func Test_interface_(t *testing.T) {
+	var a Abser
+	f := MyFloat(-math.Sqrt2)
+	v := Vertexf{
+		3, 4,
+	}
+
+	a = f
+	fmt.Println(a.Abs())
+	a = &v
+	fmt.Println(a.Abs())
+	//a = v ERROR
+}
+
+type Person struct {
+	Name string
+	Age  int
+}
+
+func (p Person) String() string {
+	return fmt.Sprintf("%v (%v years)", p.Name, p.Age)
+}
+
+func Test_fmt_stringers(t *testing.T) {
+	a := Person{
+		"Arthur Dent", 42,
+	}
+	z := Person{
+		"Zaphod Beeblebrox", 9001,
+	}
+	fmt.Println(a, z)
+
+}
+
+//-----------------------------------------------------------------
+
+//goroutine 是由 Go 运行时环境管理的轻量级线程。
+//goroutine 在相同的地址空间中运行，因此访问共享内存必须进行同步。
+//sync 提供了这种可能，不过在 Go 中并不经常用到，因为有其他的办法。
