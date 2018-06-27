@@ -9,10 +9,10 @@ import (
 )
 
 func SendEmail(subject, body string) error {
-	user := "caoyan@formaxmarket.com"
-	password := "8FX7qb8XxojEz9y5"
+	user := ""
+	password := ""
 	host := "smtp.exmail.qq.com:25"
-	to := "caoyan@formaxmarket.com"
+	to := ""
 	//contenttype := "html"
 
 	hp := strings.Split(host, ":")
